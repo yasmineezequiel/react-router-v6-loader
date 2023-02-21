@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Pokemon from './routes/Pokemon';
-import Root from './routes/Root';
+import Root, { rootLoader } from './routes/Root';
 import Error from './routes/Error';
 import {
   createBrowserRouter,
@@ -13,8 +13,8 @@ import {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Root />} path="/" errorElement={<Error />}>
-      <Route element={<Pokemon />} path="/pokemon/:name" />
+    <Route element={<Root />} path="/" loader={rootLoader} errorElement={<Error />}>
+      <Route element={<Pokemon />} path="pokemon/:name" />
     </Route>
   )
 );

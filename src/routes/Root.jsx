@@ -1,12 +1,30 @@
-import { Outlet } from "react-router-dom"
+import { Link, Outlet, useLoaderData } from 'react-router-dom';
+
+export const rootLoader = async () => {
+  const results = await fetch('https://pokeapi.co/api/v2/pokemon');
+
+  if (!results.ok) throw new Error('Something went wrong!');
+
+  const pokemons = await results.json();
+
+  return { pokemons };
+};
 
 const Root = () => {
-  return (
-    <div>
-      Root
-      <Outlet />
-    </div>
-  )
-}
+  const { pokemons } = useLoaderData();
 
-export default Root
+  return (
+    <>
+      <header>
+        {pokemons.results.map(pokemon => (
+          <Link style={{ marginRight: 20 }} key={pokemon.name} to={`pokemon/${pokemon.name}`}>
+            {pokemon.name}
+          </Link>
+        ))}
+      </header>
+      <Outlet />
+    </>
+  );
+};
+
+export default Root;
